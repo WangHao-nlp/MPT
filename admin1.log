@@ -1,0 +1,7 @@
+nohup: 忽略输入
+boat:     b'ship'
+new boat:     b'Ship'
+Root hash is     b88a392147117594b28dced818004964fd92273d685e4e92d86243c608bf04ff
+New root hash is 1fa1513b1258d76b66dba596945d1f97911d3b9b8efd0a88e0c1f417e30b77bb
+in old mpt, boy:     b'man'
+in newest mpt, boy: not exist in a new mpt.
