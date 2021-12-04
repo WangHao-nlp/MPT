@@ -46,23 +46,5 @@ except KeyError:
 
 
 
-# # 保存当前树
-# root1 = mpt.root()
-# root1hash = mpt.root_hash()
-
-# # 删除节点boy前后mpt根哈希值不同
-# print("Root hash is     {}".format(root1hash.hex()))
-# mpt.delete(b'boy')
-# print('delete boy')
-# print("New root hash is {}".format(mpt.root_hash().hex()))
-
-# # 从旧mpt的根哈希提取旧mpt
-# mpt1 = MPT.MerklePatriciaTrie(storage, root = root1)
-
-# print('in old mpt, boy:    ',mpt1.get(b'boy'))
-# print('in newest mpt, boy: ',end =' ')
-
-
-
 
 

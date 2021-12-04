@@ -4,7 +4,6 @@ from Hash import keccak_hash
 
 
 def _prepare_reference_for_usage(ref):
-    """ Encodes reference into RLP if needed so stored references will appear as bytes. """
     if isinstance(ref, list):
         return rlp.encode(ref)
 
@@ -12,7 +11,6 @@ def _prepare_reference_for_usage(ref):
 
 
 def _prepare_reference_for_encoding(ref):
-    """ Decodes RLP-encoded reference if needed so the full node will be encoded correctly. """
     if 0 < len(ref) < 32:
         return rlp.decode(ref)
 
@@ -49,7 +47,6 @@ class Node:
             return rlp.encode(branches + [self.data])
 
     def decode(encoded_data):
-        """ Decodes node from RLP. """
         data = rlp.decode(encoded_data)
 
         assert len(data) == 17 or len(data) == 2   # TODO throw exception
@@ -67,12 +64,6 @@ class Node:
             return Node.Extension(path, ref)
 
     def into_reference(node):
-        """
-        Returns reference to the given node.
-
-        If length of encoded node is less than 32 bytes, the reference is encoded node itseld (In-place reference).
-        Otherwise reference is keccak hash of encoded node.
-        """
         encoded_node = node.encode()
         if len(encoded_node) < 32:
             return encoded_node

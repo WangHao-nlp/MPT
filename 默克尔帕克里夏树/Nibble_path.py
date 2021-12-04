@@ -26,7 +26,6 @@ class NibblePath:
         return True
 
     def decode_with_type(data):
-        """ Decodes NibblePath and its type from raw bytes. """
         is_odd_len = data[0] & NibblePath.ODD_FLAG == NibblePath.ODD_FLAG
         is_leaf = data[0] & NibblePath.LEAF_FLAG == NibblePath.LEAF_FLAG
 
@@ -35,11 +34,9 @@ class NibblePath:
         return NibblePath(data, offset), is_leaf
 
     def decode(data):
-        """ Decodes NibblePath without its type from raw bytes. """
         return NibblePath.decode_with_type(data)[0]
 
     def starts_with(self, other):
-        """ Checks if `other` is prefix of `self`. """
         if len(other) > len(self):
             return False
 
@@ -50,7 +47,6 @@ class NibblePath:
         return True
 
     def at(self, idx):
-        """ Returns nibble at the certain position. """
         idx = idx + self._offset
 
         byte_idx = idx // 2
@@ -63,12 +59,10 @@ class NibblePath:
         return nibble
 
     def consume(self, amount):
-        """ Cuts off nibbles at the beginning of the path. """
         self._offset += amount
         return self
 
     def _create_new(path, length):
-        """ Creates a new NibblePath from a given object with a certain length. """
         bytes_len = (length + 1) / 2
         data = []
 
@@ -88,7 +82,6 @@ class NibblePath:
         return NibblePath(data, offset)
 
     def common_prefix(self, other):
-        """ Returns common part at the beginning of both paths. """
         least_len = min(len(self), len(other))
         common_len = 0
         for i in range(least_len):
@@ -99,12 +92,6 @@ class NibblePath:
         return NibblePath._create_new(self, common_len)
 
     def encode(self, is_leaf):
-        """
-        Encodes NibblePath into bytes.
-
-        Encoded path contains prefix with flags of type and length and also may contain a padding nibble
-        so the length of encoded path is always even.
-        """
         output = []
 
         nibbles_len = len(self)
@@ -126,8 +113,6 @@ class NibblePath:
         return bytes(output)
 
     class _Chained:
-        """ Class that chains two paths. """
-
         def __init__(self, first, second):
             self.first = first
             self.second = second
@@ -142,19 +127,6 @@ class NibblePath:
                 return self.second.at(idx - len(self.first))
 
     def combine(self, other):
-        """ Merges two paths into one. """
         chained = NibblePath._Chained(self, other)
         return NibblePath._create_new(chained, len(chained))
 
-
-#from Crypto.Hash import keccak
-#
-#encoded_key = b'do'
-#keccak_hash = keccak.new(digest_bits=256)
-#keccak_hash.update(encoded_key)
-#encoded_key = keccak_hash.digest()
-#
-#path = NibblePath(encoded_key)
-#print('encode: ',encoded_key)
-#print('path')
-#print(path)
